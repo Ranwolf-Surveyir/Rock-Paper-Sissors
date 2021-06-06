@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Page Title</title>
+  <meta charset="UTF-8"/>
+</head>
+<body>
+  <script>
+    function computerPlay() {
+        let randomNumber = Math.floor(Math.random() * 3);
+        switch (randomNumber) {
+            case 0:
+                return "rock";
+                break;
+            case 1:
+                return "paper";
+                break;
+            case 2:
+                return "sissors";
+                break;
+            default:
+                console.log("computerPlay's randomNumber is out of bounds");
+        }
+
+    }
+    function playRound(playerSelection, computerSelection) {
+        playerSelection = playerSelection.toLowerCase();
+
+        switch(playerSelection) {
+            case "rock":
+                if (computerSelection === "rock") {
+                    return "Tie!";
+                }
+                else if (computerSelection === "paper") {
+                    return "You Lose! Paper beats Rock";
+                }
+                else if (computerSelection === "sissors") {
+                    return "You Win! Rock beats Sissors";
+                }
+                break;
+            case "paper":
+                if (computerSelection === "rock") {
+                    return "You Win! Paper beats Rock";
+                }
+                else if (computerSelection === "paper") {
+                    return "Tie!";
+                }
+                else if (computerSelection === "sissors") {
+                    return "You Lose! Sissors beats Paper";
+                }
+                break;
+            case "sissors":
+                if (computerSelection === "rock") {
+                    return "You Lose! Rock beats Sissors";
+                }
+                else if (computerSelection === "paper") {
+                    return "You Win! Sissors beats Paper";
+                }
+                else if (computerSelection === "sissors") {
+                    return "Tie!";
+                }
+                break;
+            default:
+                console.log("Unrecognized playerSelection string.");
+        }
+    }
+    function game() {
+        let result = "";
+        let playerScore = 0;
+        let computerScore = 0;
+        let playerSelection = "";
+        let computerSelection = "";
+
+        for (let i = 0; i < 5; i++) {
+            playerSelection = window.prompt("Enter rock, paper, or sissors");
+            computerSelection = computerPlay();
+            
+            result = playRound(playerSelection, computerSelection);
+            
+            if (result.includes("You Win")) {
+                console.log("Player wins this round!");
+                playerScore++;
+            }
+            else if (result.includes("You Lose")) {
+                console.log("Computer wins this round!");
+                computerScore++;
+            }
+            else if (result.includes("Tie")) {
+                // Do Nothing
+            }
+            else {
+                console.log("result has unrecognizable string");
+            }
+        }
+        if (playerScore > computerScore) {
+            console.log("Player wins the game!");
+        }
+        else if (computerScore > playerScore) {
+            console.log("Computer wins the game!");
+        }
+        else {
+            console.log("The game is a tie!");
+        }
+    }
+
+    game();
+  </script>
+</body>
+</html>
