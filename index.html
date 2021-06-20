@@ -5,7 +5,25 @@
   <meta charset="UTF-8"/>
 </head>
 <body>
+
+    <button type="rock" id="rock">Rock</button>
+    <button type="paper" id="paper">Paper</button>
+    <button type="sissors" id="sissors">Sissors</button>
+
+    <div id="roundResult">
+
+    </div>
+    <div id="scoreResult">
+
+    </div>
+    <div id="gameResult">
+
+    </div>
+
   <script>
+    let playerScore = 0;
+    let computerScore = 0;
+    
     function computerPlay() {
         let randomNumber = Math.floor(Math.random() * 3);
         switch (randomNumber) {
@@ -23,40 +41,73 @@
         }
 
     }
-    function playRound(playerSelection, computerSelection) {
+
+    function trackScore(playerScoreIncrease, computerScoreIncrease) {
+        const scoreResultDiv = document.querySelector("#scoreResult");
+        const gameResultDiv = document.querySelector("#gameResult");
+
+        playerScore += playerScoreIncrease;
+        computerScore += computerScoreIncrease;
+
+        scoreResultDiv.textContent = "Player: " + playerScore + " " + "Computer: " + computerScore;
+
+        if (playerScore >= 5 || computerScore >= 5) {
+            if (playerScore > computerScore) {
+                gameResultDiv.textContent = "Player wins the game!";
+            }
+            else if (computerScore > playerScore) {
+                gameResultDiv.textContent = "Computer wins the game!";
+            }
+            else {
+                gameResultDiv.textContent = "The game is a tie!";
+            }
+        }
+    }
+
+    function playRound(playerSelection) {
         playerSelection = playerSelection.toLowerCase();
+        computerSelection = computerPlay();
 
         switch(playerSelection) {
             case "rock":
                 if (computerSelection === "rock") {
+                    trackScore(0, 0);
                     return "Tie!";
                 }
                 else if (computerSelection === "paper") {
+                    trackScore(0, 1);
                     return "You Lose! Paper beats Rock";
                 }
                 else if (computerSelection === "sissors") {
+                    trackScore(1, 0);
                     return "You Win! Rock beats Sissors";
                 }
                 break;
             case "paper":
                 if (computerSelection === "rock") {
+                    trackScore(1, 0);
                     return "You Win! Paper beats Rock";
                 }
                 else if (computerSelection === "paper") {
+                    trackScore(0, 0);
                     return "Tie!";
                 }
                 else if (computerSelection === "sissors") {
+                    trackScore(0, 1);
                     return "You Lose! Sissors beats Paper";
                 }
                 break;
             case "sissors":
                 if (computerSelection === "rock") {
+                    trackScore(0, 1);
                     return "You Lose! Rock beats Sissors";
                 }
                 else if (computerSelection === "paper") {
+                    trackScore(1, 0);
                     return "You Win! Sissors beats Paper";
                 }
                 else if (computerSelection === "sissors") {
+                    trackScore(0, 0);
                     return "Tie!";
                 }
                 break;
@@ -64,46 +115,29 @@
                 console.log("Unrecognized playerSelection string.");
         }
     }
-    function game() {
-        let result = "";
-        let playerScore = 0;
-        let computerScore = 0;
-        let playerSelection = "";
-        let computerSelection = "";
 
-        for (let i = 0; i < 5; i++) {
-            playerSelection = window.prompt("Enter rock, paper, or sissors");
-            computerSelection = computerPlay();
-            
-            result = playRound(playerSelection, computerSelection);
-            
-            if (result.includes("You Win")) {
-                console.log("Player wins this round!");
-                playerScore++;
-            }
-            else if (result.includes("You Lose")) {
-                console.log("Computer wins this round!");
-                computerScore++;
-            }
-            else if (result.includes("Tie")) {
-                // Do Nothing
-            }
-            else {
-                console.log("result has unrecognizable string");
-            }
-        }
-        if (playerScore > computerScore) {
-            console.log("Player wins the game!");
-        }
-        else if (computerScore > playerScore) {
-            console.log("Computer wins the game!");
-        }
-        else {
-            console.log("The game is a tie!");
-        }
-    }
+    //-----------------------------------------------------------
+    const rockButton = document.getElementById("rock");
+    const paperButton = document.getElementById("paper");
+    const sissorsButton = document.getElementById("sissors");
 
-    game();
+    const resultDiv = document.getElementById("roundResult");
+
+    let roundResultText = "blank text";
+
+    rockButton.addEventListener('click', function (e) {
+        roundResultText = playRound("rock");
+        resultDiv.textContent = roundResultText;
+    });
+    paperButton.addEventListener('click', function(e) {
+        roundResultText = playRound("paper");
+        resultDiv.textContent = roundResultText;
+    });
+    sissorsButton.addEventListener('click', function(e) {
+        roundResultText = playRound("sissors");
+        resultDiv.textContent = roundResultText;
+    });
+
   </script>
 </body>
 </html>
